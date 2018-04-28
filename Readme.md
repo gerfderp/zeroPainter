@@ -28,3 +28,4 @@ Highlights:
     git clone https://github.com/adafruit/DotStarPiPainter
     git clone https://github.com/adafruit/Adafruit_Python_SSD1306
     git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
+    git clone https://github.com/gerfderp/zeroPainter.git

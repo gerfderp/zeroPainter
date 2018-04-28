@@ -257,19 +257,21 @@ def loadImage(index):
 
 	# Success!
 	for n in range(lower, upper):
-		strip.setPixelColor(n, 0x000100) # Green
-	strip.show()
-	time.sleep(0.25) # Tiny delay so green 'ready' is visible
-	print "Ready!"
-	font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-											 'fonts', 'C&C Red Alert [INET].ttf'))
-	font2 = ImageFont.truetype(font_path, 12)
-	# with canvas(device) as draw:
+        strip.setPixelColor(n, 0x000100) # Green
+
+    strip.show()
+    time.sleep(0.25) # Tiny delay so green 'ready' is visible
+    print "Ready!"
+    font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                             'fonts', 'C&C Red Alert [INET].ttf'))
+    font2 = ImageFont.truetype(font_path, 12)
+
+    # with canvas(device) as draw:
     draw.text((0, 0), "Loading %s" % filename[index] , font=font2, fill="white")
     draw.text((0, 14), "\t%dx%d pixels" % img.size, font=font2, fill="white")
 
     draw.text((0, 26), "Ready", font=font2, fill="white")
-		# draw.text((0, 38), accelerometers(), font=font2, fill="white")
+        # draw.text((0, 38), accelerometers(), font=font2, fill="white")
 
 	strip.clear()
 	strip.show()

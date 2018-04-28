@@ -209,19 +209,21 @@ def loadImage(index):
 	for n in range(lower, upper):
 		strip.setPixelColor(n, 0x010000) # Red = loading
 	strip.show()
-	print "Loading '" + filename[index] + "'..."
+	print("Loading '" + filename[index] + "'...")
 	startTime = time.time()
+
 	# Load image, convert to RGB if needed
 	img = Image.open(os.path.join(path, filename[index])).convert("RGB")
-	print "\t%dx%d pixels" % img.size
+	print("\t%dx%d pixels" % img.size)
 
 	# If necessary, image is vertically scaled to match LED strip.
 	# Width is NOT resized, this is on purpose.  Pixels need not be
 	# square!  This makes for higher-resolution painting on the X axis.
 	if img.size[1] != num_leds:
-		print "\tResizing...",
+		print("\tResizing...", end=' ')
 		img = img.resize((img.size[0], num_leds), Image.BICUBIC)
-		print "now %dx%d pixels" % img.size
+		print("now %dx%d pixels" % img.size)
+
 
 	# Convert raw RGB pixel data to a bytes or string buffer.
 	# The C module can easily work with this format.
@@ -229,9 +231,9 @@ def loadImage(index):
 		# Current/preferred PIL method
 		pixels = img.tobytes()
 	except:
-		# Oldschool PIL (deprecated)
 		pixels = img.tostring()
-	print "\t%f seconds" % (time.time() - startTime)
+
+	print("\t%f seconds" % (time.time() - startTime))
 
 	# Do external C processing on image; this provides 16-bit gamma
 	# correction, diffusion dithering and brightness adjustment to
@@ -239,7 +241,7 @@ def loadImage(index):
 	for n in range(lower, upper):
 		strip.setPixelColor(n, 0x010100) # Yellow
 	strip.show()
-	print "Processing..."
+	print("Processing...")
 	startTime  = time.time()
 	# Pixel buffer, image size, gamma, color balance and power settings
 	# are REQUIRED arguments.  One or two additional arguments may
@@ -251,27 +253,26 @@ def loadImage(index):
 	# prefer having the Pi at the bottom as it provides some weight).
 	# Returns a LightPaint object which is used later for dithering
 	# and display.
-	lightpaint = LightPaint(pixels, img.size, gamma, color_balance,
-	  power_settings, order=order, vflip=vflip)
-	print "\t%f seconds" % (time.time() - startTime)
+	lightpaint = LightPaint(pixels, img.size, gamma, color_balance, power_settings, order=order, vflip=vflip)
+	print("\t%f seconds" % (time.time() - startTime))
 
 	# Success!
 	for n in range(lower, upper):
-        strip.setPixelColor(n, 0x000100) # Green
+		strip.setPixelColor(n, 0x000100) # Green
 
-    strip.show()
-    time.sleep(0.25) # Tiny delay so green 'ready' is visible
-    print "Ready!"
-    font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                             'fonts', 'C&C Red Alert [INET].ttf'))
-    font2 = ImageFont.truetype(font_path, 12)
+	strip.show()
+	time.sleep(0.25) # Tiny delay so green 'ready' is visible
+	print("Ready!")
+	font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+											 'fonts', 'C&C Red Alert [INET].ttf'))
+	font2 = ImageFont.truetype(font_path, 12)
 
-    # with canvas(device) as draw:
-    draw.text((0, 0), "Loading %s" % filename[index] , font=font2, fill="white")
-    draw.text((0, 14), "\t%dx%d pixels" % img.size, font=font2, fill="white")
+	# with canvas(device) as draw:
+	draw.text((0, 0), "Loading %s" % filename[index] , font=font2, fill="white")
+	draw.text((0, 14), "\t%dx%d pixels" % img.size, font=font2, fill="white")
 
-    draw.text((0, 26), "Ready", font=font2, fill="white")
-        # draw.text((0, 38), accelerometers(), font=font2, fill="white")
+	draw.text((0, 26), "Ready", font=font2, fill="white")
+		# draw.text((0, 38), accelerometers(), font=font2, fill="white")
 
 	strip.clear()
 	strip.show()
@@ -330,29 +331,29 @@ try:
 					  elapsed / duration)
 					strip.show(ledBuf)
 
-			else: # Encoder-based
-
-				mousepos = 0
-				scale    = 0.01 / (speed_pixel + 1)
-				while True:
-					input = epoll.poll(-1) # Non-blocking
-					for i in input: # For each pending...
-						try:
-							for event in dev.read():
-								if(event.type == ecodes.EV_REL and
-								   event.code == ecodes.REL_X):
-									mousepos += event.value
-						except:
-							# If this occurs, usually power settings
-							# are too high for battery source.
-							# Voltage sags, Pi loses track of USB device.
-							print 'LOST MOUSE CONNECTION'
-							continue
-
-					pos = abs(mousepos) * scale
-					if pos > 1.0: break
-					lightpaint.dither(ledBuf, pos)
-					strip.show(ledBuf)
+			# else: # Encoder-based
+            #
+			# 	mousepos = 0
+			# 	scale    = 0.01 / (speed_pixel + 1)
+			# 	while True:
+			# 		input = epoll.poll(-1) # Non-blocking
+			# 		for i in input: # For each pending...
+			# 			try:
+			# 				for event in dev.read():
+			# 					if(event.type == ecodes.EV_REL and
+			# 					   event.code == ecodes.REL_X):
+			# 						mousepos += event.value
+			# 			except:
+			# 				# If this occurs, usually power settings
+			# 				# are too high for battery source.
+			# 				# Voltage sags, Pi loses track of USB device.
+			# 				print('LOST MOUSE CONNECTION')
+			# 				continue
+            #
+			# 		pos = abs(mousepos) * scale
+			# 		if pos > 1.0: break
+			# 		lightpaint.dither(ledBuf, pos)
+			# 		strip.show(ledBuf)
 
 			if btn() != pin_go: # Button released?
 				strip.show(clearBuf)
@@ -404,9 +405,9 @@ try:
 		prev_btn = b
 
 except KeyboardInterrupt:
-	print "Cleaning up"
+	print("Cleaning up")
 	GPIO.cleanup()
 	strip.clear()
 	strip.show()
-	print "Done!"
+	print("Done!")
 

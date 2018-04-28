@@ -1,0 +1,5 @@
+Adafruit_GPIO.SPI
+Adafruit_SSD1306
+PIL
+time
+RPi

@@ -220,7 +220,7 @@ def loadImage(index):
 	# Width is NOT resized, this is on purpose.  Pixels need not be
 	# square!  This makes for higher-resolution painting on the X axis.
 	if img.size[1] != num_leds:
-		print("\tResizing...", end=' ')
+		print("\tResizing...")
 		img = img.resize((img.size[0], num_leds), Image.BICUBIC)
 		print("now %dx%d pixels" % img.size)
 

@@ -204,6 +204,7 @@ def scandir():
 		filename.sort()                # Sort list alphabetically
 		lightpaint = loadImage(imgNum) # Load first image
 
+
 # Load image, do some conversion and processing as needed before painting.
 def loadImage(index):
 	num_images = len(filename)
@@ -283,6 +284,7 @@ def loadImage(index):
 	strip.show()
 	return lightpaint
 
+
 def btn():
 	if not GPIO.input(pin_go):     return 1
 	if not GPIO.input(pin_faster): return 2
@@ -291,12 +293,23 @@ def btn():
 	if not GPIO.input(pin_prev):   return 5
 	return 0
 
-# def nunchuck():
-# 	if wii.button_z(): 				return 1
-# 	if wii.joystick_y() > 140: 		return 2
-# 	if wii.joystick_y() < 120:		return 3
-# 	if wii.joystick_x() > 140: 		return 4
-# 	if wii.joystick_x() < 120: 		return 5
+
+def shutdown():
+	cleanup()
+	draw.text((0, 0), "shutdown started", font=font, fill="white")
+	# Display image.
+	disp.image(image)
+	disp.display()
+	os.system("sudo shutdown -h now")
+
+
+def cleanup():
+	print("Cleaning up")
+	GPIO.cleanup()
+	strip.clear()
+	strip.show()
+	print("Done!")
+
 
 # MAIN LOOP ----------------------------------------------------------------
 
@@ -409,10 +422,10 @@ try:
 			rep_time = 0.2
 		prev_btn = b
 
+		if not GPIO.input(A_pin) and not GPIO.input(B_pin) and not GPIO.input(C_pin):
+			shutdown()
+
+
 except KeyboardInterrupt:
-	print("Cleaning up")
-	GPIO.cleanup()
-	strip.clear()
-	strip.show()
-	print("Done!")
+	cleanup()
 

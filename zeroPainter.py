@@ -125,7 +125,7 @@ draw.rectangle((0,0,width,height), outline=0, fill=0)
 
 # Load default font.
 font = ImageFont.load_default()
-
+draw.text((0, 0), "Initializing...", font=font, fill="white")
 
 path      = '/home/pi/zeroPainter/images'         # USB stick mount point
 mousefile = '/dev/input/mouse0'  # Mouse device (as positional encoder)
@@ -266,16 +266,18 @@ def loadImage(index):
 	strip.show()
 	time.sleep(0.25) # Tiny delay so green 'ready' is visible
 	print("Ready!")
-	# font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-	# 										 'fonts', 'C&C Red Alert [INET].ttf'))
-	# font2 = ImageFont.truetype(font_path, 12)
 
-	# with canvas(device) as draw:
+	# Draw a black filled box to clear the image.
+	draw.rectangle((0, 0, width, height), outline=0, fill=0)
+
 	draw.text((0, 0), "Loading %s" % filename[index] , font=font, fill="white")
 	draw.text((0, 14), "\t%dx%d pixels" % img.size, font=font, fill="white")
 
 	draw.text((0, 26), "Ready", font=font, fill="white")
-		# draw.text((0, 38), accelerometers(), font=font2, fill="white")
+	# Display image.
+	disp.image(image)
+	disp.display()
+	time.sleep(.1)
 
 	strip.clear()
 	strip.show()

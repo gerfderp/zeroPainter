@@ -124,7 +124,7 @@ draw.rectangle((0,0,width,height), outline=0, fill=0)
 font = ImageFont.load_default()
 
 
-path      = '/media/usb'         # USB stick mount point
+path      = '/home/pi/zeroPainter/images'         # USB stick mount point
 mousefile = '/dev/input/mouse0'  # Mouse device (as positional encoder)
 eventfile = '/dev/input/event0'  # Mouse events accumulate here
 dev       = None                 # None unless mouse is detected

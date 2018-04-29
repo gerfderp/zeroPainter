@@ -296,6 +296,7 @@ def btn():
 
 def shutdown():
 	cleanup()
+	draw.rectangle((0, 0, width, height), outline=0, fill=0)
 	draw.text((0, 0), "shutdown started", font=font, fill="white")
 	# Display image.
 	disp.image(image)
